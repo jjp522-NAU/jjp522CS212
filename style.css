@@ -1,7 +1,42 @@
+/*Spinner*/
+#loader {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background: #010102;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+}
+
+/* Spinner design */
+.spinner {
+  border: 6px solid #222;   
+  border-top: 6px solid #4a90e2;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+}
+
+/* Spin animation */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.loaded #loader {
+  display: none;
+}
+
+/*Regular Styles*/
 body {
-    font-family: Arial, sans-serif;
-    color: #e7e7f5;
-    background-color: #010102;
+  font-family: Arial, sans-serif;
+  color: #e7e7f5;
+  background-color: #010102;
+  margin: 0;
+  padding: 0;
 }
 
 .container {
@@ -10,10 +45,10 @@ body {
     "header header"
     "nav content"
     "footer footer";
-    
   grid-template-columns: 150px 1fr;  
   grid-template-rows: 80px auto 50px; 
   height: 100vh;
+  max-width: 100%;
 }
 
 .header {
@@ -21,6 +56,11 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: sticky;
+  top: 0;
+  background: #010102;
+  z-index: 100;
+  padding: 10px;
 }
 
 .footer {
@@ -39,40 +79,59 @@ body {
   z-index: 100;
 }
 
+/*Content Area*/
 .content {
   grid-area: content;
   padding: 1rem;
+  overflow-x: hidden;
 }
 
-.nav{
+/*Navigation Bar*/
+.nav {
   grid-area: nav;
-  background: #e7e7f5;
+  background: #0f0f0f;
   display: flex;
+  flex-direction: column;
   padding: 1rem;
   position: fixed;
   top: 0;
   left: 0;
   height: 100vh;
   width: 120px;
-  background: #0f0f0f;
   align-items: flex-start;
+  z-index: 200;
 }
 
 .nav ul {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 .nav li {
-  margin: 5px;
-  background:#e7e7f5;
+  margin: 5px 0;
+  background: #e7e7f5;
+  border-radius: 6px;
 }
 
 .nav a {
   color: black;
   font-weight: bold;
+  text-decoration: none;
+  display: block;
+  padding: 5px 10px;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
 }
 
+.nav a:hover {
+  background-color: #ccc;
+}
+
+/* Resume button */
 .resume {
   position: absolute;
   left: 10px;
@@ -85,16 +144,20 @@ body {
   text-decoration: none;
   font-weight: bold;
   z-index: 10000;
+  transition: background-color 0.3s ease, border-radius 0.3s ease, box-shadow 0.3s ease;
 }
 
 .resume:hover {
-  background: #357abd;
+  background: #808d9b;
+  border-radius: 25px;
+  box-shadow: 0 4px 12px rgba(228, 3, 3, 0.4);
 }
 
 .education {
   padding-bottom: 100px;
 }
 
+/*Projects Section*/
 .projects {
   display: grid;
   grid-template-columns: repeat(2, 1fr); 
@@ -110,12 +173,27 @@ body {
   text-align: center;
 }
 
+/* Project images with hover */
+.project img {
+  float: left;
+  margin: 5px;
+  border-radius: 6px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.project img:hover {
+  transform: scale(1.45);
+  opacity: 0.9;
+}
+
+/*Skills Section*/
 .skills-flex {
   display: flex;
   justify-content: space-around;
   align-items: flex-start;
   gap: 20px;
   margin-top: 20px;
+  flex-wrap: wrap;
 }
 
 .skill-category {
@@ -124,4 +202,82 @@ body {
   border-radius: 10px;
   color: #e7e7f5;
   min-width: 180px;
+}
+
+.skill-category li {
+  list-style: none;
+  padding: 8px;
+  margin: 6px 0;
+  transition: transform 0.3s ease, background-color 0.3s ease, border-radius 0.3s ease;
+}
+
+.skill-category li:hover {
+  transform: scale(1.1) rotate(-3deg);
+  background-color: #333;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/*Responsive Design*/
+
+/* Mobile */
+@media (max-width: 480px) {
+  .container {
+    grid-template-areas:
+      "header"
+      "content"
+      "footer";
+    grid-template-columns: 1fr;
+  }
+
+  .nav {
+    position: relative;
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .nav ul {
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+  }
+
+  .projects {
+    grid-template-columns: 1fr;
+  }
+
+  .skills-flex {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+/* Tablet */
+@media (min-width: 481px) and (max-width: 768px) {
+  .container {
+    grid-template-columns: 120px 1fr;
+  }
+
+  .projects {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .skills-flex {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1600px;
+    margin: auto;
+  }
+
+  .projects {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
