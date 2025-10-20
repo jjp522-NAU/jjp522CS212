@@ -20,18 +20,17 @@
     </head>
 
     <!--body section-->
-    <body class="bg-dark text-light"> <!-- bootstrap classes for background and text color -->
+    <body class="bg-dark text-light">
         <div class="container"> 
-            <header class="text-center py-3 bg-gradient" style="background: linear-gradient(90deg, #141414, #1f1f1f);"> <!--bootsrap spacing and gradient-->
-                <h1 class="fw-bold" style="font-family: 'Montserrat', sans-serif;"> <!--fonts plus added intention-->
+            <header class="text-center py-3 bg-gradient" style="background: linear-gradient(90deg, #141414, #1f1f1f);"> 
+                <h1 class="fw-bold" style="font-family: 'Montserrat', sans-serif;"> 
                     Jake Preston's Portfolio <br> 
-                    <small class="text-secondary">Gameplay and Systems Designer</small> <!--bootstrap text stuff-->
+                    <small class="text-secondary">Gameplay and Systems Designer</small> 
                 </h1>
 
-                <img src="Images/Headshot.png" alt="My headshot" height="50px" width="50px" class="rounded-circle border border-primary"/> <!--bootstrap image styling-->
+                <img src="Images/Headshot.png" alt="My headshot" height="50px" width="50px" class="rounded-circle border border-primary"/> 
             </header>
 
-            <!--replaced old navigation bar with bootstrap one, whole thing is different-->
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-primary sticky-top">
                 <div class="container-fluid">
                     <a class="navbar-brand fw-bold" href="#"></a>
@@ -52,14 +51,15 @@
                             Download Resume
                         </a>
                     </div>
+                    <p id="downloadCount" class="text-info mt-2 text-center"></p>
                 </div>
             </nav>
 
-            <div class="content my-5"> <!--added spacing-->
+            <div class="content my-5"> 
                 <section id="aboutme" class="mb-5">
-                    <h2 id="greeting" class="text-primary mb-3"></h2><!-- added for greeting pop up -->
+                    <h2 id="greeting" class="text-primary mb-3"></h2><!-- added for greeting -->
                     <h2 class="text-primary mb-3">About Me</h2> 
-                    <p class="lead" style="font-family: 'Open Sans', sans-serif;"> <!-- bootstrap stuff -->
+                    <p class="lead" style="font-family: 'Open Sans', sans-serif;"> 
                         Hello, I am <b>Jake Preston</b>, a fourth-year student currently studying 
                         Immersive Media and Games at Northern Arizona University. 
                         I’m a Gameplay and Systems Designer passionate in creating experiences
@@ -72,12 +72,11 @@
                     </p>
                 </section>
 
-                <!-- Retooled this whole section into a bootstrip grid of cards -->
                 <section id="skills" class="mb-5">
                     <h2 class="text-primary mb-3">Skills and Experience</h2>
                     <div class="row g-4"> 
                         <div class="col-md-4">
-                            <div class="card bg-secondary text-white h-100"> <!-- bootstrap card-->
+                            <div class="card bg-secondary text-white h-100"> 
                                 <div class="card-body">
                                     <h5 class="card-title">Design</h5>
                                     <ul class="list-unstyled">
@@ -113,133 +112,43 @@
                                 </div>
                             </div>
                         </div>
+                        <!--new skill adding section-->
+                        <div class="mt-4">
+                          <h5 class="text-primary">Add a New Skill</h5>
+                          <div class="input-group mb-3">
+                            <input type="text" id="skillInput" class="form-control" placeholder="Enter a new skill">
+                            <button class="btn btn-primary" id="addSkillBtn">Add Skill</button>
+                          </div>
+
+                          <select id="skillCategory" class="form-select mb-3">
+                            <option value="design">Design</option>
+                            <option value="programming">Programming</option>
+                            <option value="soft">Soft Skills</option>
+                          </select>
+                        </div>
                     </div>
                 </section>
+              
 
-                <!-- Revamped project section using bootstrap grid -->
+                
                 <section id="projects" class="mb-5">
-                  <h2 class="text-primary mb-3 text-center">Projects Reference</h2> <!-- styled heading-->
-                  <div class="row g-4"> <!-- bootstrap spacing grid -->
-
-                    <!-- Project 1 -->
-                    <div class="col-md-6 col-lg-4">
-                      <div class="card bg-dark border border-primary h-100">
-                        <img src="Images/mgsc0.png" class="card-img-top" alt="Milgram Experiment screenshot 1">
-                        <div class="card-body">
-                          <h5 class="card-title text-primary">The Milgram Experiment</h5>
-                          <p class="card-text small">
-                            The Milgram Experiment pushes the boundaries on what a game can be. It puts the player through the famous Milgram Experiment
-                            and tests how they would react in the face of pleading and helpless citizens. Players take the role of a Patriot Test administrator 
-                            in a fictional country, deciding whether to obey authority or rebel and save lives.
-                          </p>
-                        </div>
-                        <div class="card-footer text-center bg-transparent">
-                          <img src="Images/mgsc1.png" alt="Milgram Experiment screenshot 2" class="img-fluid rounded mt-2">
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- Project 2 -->
-                    <div class="col-md-6 col-lg-4">
-                      <div class="card bg-dark border border-primary h-100">
-                        <img src="Images/gbsc0.png" class="card-img-top" alt="Gunslinger Breakout screenshot 1">
-                        <div class="card-body">
-                          <h5 class="card-title text-primary">Gunslinger Breakout</h5>
-                          <p class="card-text small">
-                            Gunslinger Breakout is an unfinished 3D FPS puzzle game where the player must use a revolver full of bullets with special abilities
-                            to solve puzzles and escape an abandoned facility filled with challenges.
-                          </p>
-                        </div>
-                        <div class="card-footer text-center bg-transparent">
-                          <img src="Images/gbsc1.png" alt="Gunslinger Breakout screenshot 2" class="img-fluid rounded mt-2">
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- Project 3 -->
-                    <div class="col-md-6 col-lg-4">
-                      <div class="card bg-dark border border-primary h-100">
-                        <img src="Images/gpsc0.png" class="card-img-top" alt="Grand Prix screenshot 1">
-                        <div class="card-body">
-                          <h5 class="card-title text-primary">Grand Prix</h5>
-                          <p class="card-text small">
-                            Grand Prix is a fast-paced strategic card game where players strike at the perfect moment to secure victory.
-                            Compete in consecutive 1v1 races while managing and spending resources strategically to win.
-                          </p>
-                        </div>
-                        <div class="card-footer text-center bg-transparent">
-                          <img src="Images/gpsc1.png" alt="Grand Prix screenshot 2" class="img-fluid rounded mt-2" style="max-height: 250px;">
-                        </div>
-                      </div>
-                    </div>
-
-                    <!--Project 4 -->
-                    <div class="col-md-6 col-lg-4">
-                      <div class="card bg-dark border border-primary h-100">
-                        <img src="Images/tssc0.png" class="card-img-top" alt="Time Shift screenshot 1">
-                        <div class="card-body">
-                          <h5 class="card-title text-primary">Time Shift</h5>
-                          <p class="card-text small">
-                            Time Shift is a 3D first-person puzzle game where players travel through time to solve puzzles and escape a high-security facility.
-                            Created as part of a group project at UC Irvine, players switch between present and future timelines to progress.
-                          </p>
-                        </div>
-                        <div class="card-footer text-center bg-transparent">
-                          <img src="Images/tssc1.png" alt="Time Shift screenshot 2" class="img-fluid rounded mt-2">
-                        </div>
-                      </div>
-                    </div>
-
-                    <!--Project 5 -->
-                    <div class="col-md-6 col-lg-4">
-                      <div class="card bg-dark border border-primary h-100">
-                        <img src="Images/sdsc0.png" class="card-img-top" alt="Spacial Defense screenshot 1">
-                        <div class="card-body">
-                          <h5 class="card-title text-primary">Spacial Defense</h5>
-                          <p class="card-text small">
-                            Spacial Defense is a 2.5D Tower Defense game where the player must manage and reposition three towers with unique abilities
-                            to stop waves of enemies. Players can upgrade towers after reaching score milestones to enhance their defense.
-                          </p>
-                        </div>
-                        <div class="card-footer text-center bg-transparent">
-                          <img src="Images/sdsc1.png" alt="Spacial Defense screenshot 2" class="img-fluid rounded mt-2">
-                        </div>
-                      </div>
-                    </div>
+                  <h2 class="text-primary mb-3 text-center">Projects Reference</h2> 
+                  <div id="projectContainer" class="row g-4">
 
                   </div>
-                  <p id="deadline" class="text-info text-center mt-3"></p> <!--For JS-->
+                  <p id="deadline" class="text-info text-center mt-3"></p> 
                 </section>
 
-                 <!-- new bootstrap table-->
+                <!-- New Table section -->
                 <section id="education" class="education mb-5">
-                    <h2 class="text-primary mb-3">Education and Experience</h2>
-                    <div class="table-responsive"> <!-- wrapper for small stuff -->
-                        <table class="table table-dark table-striped table-bordered align-middle">
-                            <thead>
-                                <tr class="text-primary">
-                                    <th>School</th>
-                                    <th>Degree</th>
-                                    <th>Duration</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>UC Irvine</td>
-                                    <td>Game Design and Interactive Media</td>
-                                    <td>3 Years</td>
-                                </tr>
-                                <tr>
-                                    <td>Northern Arizona University</td>
-                                    <td>Immersive Media and Games</td>
-                                    <td>1 Semester</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                  <h2 class="text-primary mb-3">Education and Experience</h2>
+
+                  <!-- Dynamic tables will be inserted here -->
+                  <div id="educationContainer" class="mb-5"></div>
+                  <div id="experienceContainer"></div>
                 </section>
 
-                <footer class="footer text-center py-3 bg-gradient" style="background: linear-gradient(90deg, #1f1f1f, #141414);"> <!-- Bootstrap gradient and spacing -->
+                <footer class="footer text-center py-3 bg-gradient" style="background: linear-gradient(90deg, #1f1f1f, #141414);"> 
                     <p class="mb-1">Copyright &copy; 2025 Jake Preston
                         <br>Email: <a href="mailto:jaketpreston@gmail.com" class="text-primary">jaketpreston@gmail.com</a>    
                         Portfolio: <a href="https://teddybar5.github.io/" target="_blank" class="text-primary">Click Here</a> 
