@@ -77,6 +77,7 @@ const skillInput = document.getElementById("skillInput");
 const addSkillBtn = document.getElementById("addSkillBtn");
 const skillCategory = document.getElementById("skillCategory");
 
+/*
 addSkillBtn.addEventListener("click", function () {
   const newSkill = skillInput.value.trim();
   const category = skillCategory.value;
@@ -112,7 +113,24 @@ addSkillBtn.addEventListener("click", function () {
   // Clear input
   skillInput.value = "";
 });
+*/
 
+//RESUME DOWNLOAD BUTTON
+const downloadCountDisplay = document.getElementById("downloadCount");
+
+let downloadCount = 0; // variable to track total downloads
+
+function updateDownloadDisplay() {
+  downloadCountDisplay.textContent = `Resume downloaded ${downloadCount} time${downloadCount !== 1 ? "s" : ""}.`;
+}
+
+// Initial display
+updateDownloadDisplay();
+
+downloadButton.addEventListener("click", function () {
+  downloadCount++; // increment count each click
+  updateDownloadDisplay(); // update the text
+});
 
 // Arrays holding project data
 const projectTitles = [
@@ -134,7 +152,7 @@ const projectDescriptions = [
 const projectDeadlines = [
   "2025-12-31", // Milgram Experiment
   "2025-11-15", // Gunslinger Breakout
-  "2025-12-31",  // Grand Prix
+  "2026-1-26",  // Grand Prix
   "2024-10-22", //Time Shift
   "2023-7-23" //spacial defense
 ];
@@ -143,82 +161,94 @@ const projectDeadlines = [
 // Get the container in HTML
 const projectContainer = document.getElementById("projectContainer");
 
-for (let i = 0; i < projectTitles.length; i++) {
-  const title = projectTitles[i];
-  const desc = projectDescriptions[i];
-  const deadline = new Date(projectDeadlines[i]);
+//New Project Sorting Section
+$("#projects").prepend(`
+  <div class="text-center mb-3">
+    <button id="sortAsc" class="btn btn-primary btn-sm me-2">Sort by Earliest Deadline</button>
+    <button id="sortDesc" class="btn btn-secondary btn-sm">Sort by Latest Deadline</button>
+  </div>
+`);
+
+
+function parseDate(dateString) {
+  const parts = dateString.split("-");
+  //month index is zero-based
+  return new Date(parts[0], parts[1] - 1, parts[2]);
+}
+
+//Helper to compute days remaining
+function daysRemaining(deadline) {
+  const today = new Date();
+  const diffTime = deadline.getTime() - today.getTime();
+  return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+}
+
+function renderProjects(projects) {
+  $("#projectContainer").empty();
   const currentDate = new Date();
 
-  // --- Comparison using <, >, === ---
-  let statusText = "";
-  if (deadline > currentDate) {
-    statusText = "Ongoing";
-  } else if (deadline < currentDate) {
-    statusText = "Completed";
-  } else if (deadline.getTime() === currentDate.getTime()) {
-    statusText = "Due Today";
-  }
+  projects.forEach(p => {
+    //Determine status text, color, and extra info
+    let statusText = "";
+    let statusColor = "";
+    let extraInfo = "";
 
-  // Create the column
-  const colDiv = document.createElement("div");
-  colDiv.classList.add("col-md-6", "col-lg-4");
+    if (p.deadline > currentDate) {
+      const daysLeft = daysRemaining(p.deadline);
+      statusText = "Ongoing";
+      statusColor = "#00ff7f"; 
+      extraInfo = ` (${daysLeft} day${daysLeft !== 1 ? "s" : ""} remaining)`;
+    } else if (p.deadline < currentDate) {
+      statusText = "Completed";
+      statusColor = "#877affff"; 
+    } else if (p.deadline.toDateString() === currentDate.toDateString()) {
+      statusText = "Due Today";
+      statusColor = "#ffcc00"; 
+    }
 
-  // Card container
-  const cardDiv = document.createElement("div");
-  cardDiv.classList.add("card", "bg-dark", "border", "border-primary", "h-100");
+    //Make the card
+    const card = `
+      <div class="col-md-6 col-lg-4">
+        <div class="card bg-dark border border-primary h-100">
+          <div class="card-body">
+            <h5 class="card-title text-primary">${p.title}</h5>
+            <p class="card-text small">${p.description}</p>
+            <p class="text-info small mt-2">Deadline: ${p.deadline.toDateString()}</p>
+            <p class="fw-bold" style="color: ${statusColor};">
+              Status: ${statusText}${extraInfo}
+            </p>
+          </div>
+        </div>
+      </div>
+    `;
 
-  // Card body
-  const bodyDiv = document.createElement("div");
-  bodyDiv.classList.add("card-body");
-
-  const titleEl = document.createElement("h5");
-  titleEl.classList.add("card-title", "text-primary");
-  titleEl.textContent = title;
-
-  const descEl = document.createElement("p");
-  descEl.classList.add("card-text", "small");
-  descEl.textContent = desc;
-
-  // Deadline
-  const deadlineEl = document.createElement("p");
-  deadlineEl.classList.add("text-info", "small", "mt-2");
-  deadlineEl.textContent = `Deadline: ${projectDeadlines[i]}`;
-
-  // Status element
-  const statusEl = document.createElement("p");
-  statusEl.classList.add("fw-bold");
-  statusEl.textContent = `Status: ${statusText}`;
-  statusEl.style.color =
-    statusText === "Ongoing" ? "#00ff7f" :
-    statusText === "Due Today" ? "#ffcc00" :
-    "#877affff"; //for completed
-
-  // Assemble
-  bodyDiv.appendChild(titleEl);
-  bodyDiv.appendChild(descEl);
-  bodyDiv.appendChild(deadlineEl);
-  bodyDiv.appendChild(statusEl);
-  cardDiv.appendChild(bodyDiv);
-  colDiv.appendChild(cardDiv);
-  projectContainer.appendChild(colDiv);
+    $("#projectContainer").append($(card).hide().fadeIn(400));
+  });
 }
 
-//RESUME DOWNLOAD BUTTON
-const downloadCountDisplay = document.getElementById("downloadCount");
+//Build the project objects
+const projects = projectTitles.map((title, i) => ({
+  title,
+  description: projectDescriptions[i],
+  deadline: parseDate(projectDeadlines[i])
+}));
 
-let downloadCount = 0; // variable to track total downloads
+//render, start sorted
+projects.sort((a, b) => b.deadline - a.deadline);
+renderProjects(projects);
 
-function updateDownloadDisplay() {
-  downloadCountDisplay.textContent = `Resume downloaded ${downloadCount} time${downloadCount !== 1 ? "s" : ""}.`;
-}
-
-// Initial display
-updateDownloadDisplay();
-
-downloadButton.addEventListener("click", function () {
-  downloadCount++; // increment count each click
-  updateDownloadDisplay(); // update the text
+//Sort buttons so it works
+$("#sortAsc").click(() => {
+  projects.sort((a, b) => a.deadline - b.deadline);
+  renderProjects(projects);
 });
+
+$("#sortDesc").click(() => {
+  projects.sort((a, b) => b.deadline - a.deadline);
+  renderProjects(projects);
+});
+
+
 
 
 //NEW EDUCATION SECTION
@@ -321,3 +351,103 @@ function createExperienceTable() {
 //Generate both tables on page load
 createEducationTable();
 createExperienceTable();
+
+
+//Dynamic Skills with JQuery
+//Array to store skills
+let skillsArray = [];
+
+//Function to render the skills list
+function renderSkills() {
+  const skillList = $("#dynamicSkillList");
+  skillList.empty();
+
+  skillsArray.forEach((skill, index) => {
+    const li = $(`
+      <li class="d-flex justify-content-between align-items-center mb-2">
+        <span class="skill-name">${skill}</span>
+        <div>
+          <button class="btn btn-sm btn-warning edit-skill" data-index="${index}">Edit</button>
+          <button class="btn btn-sm btn-danger delete-skill" data-index="${index}">Delete</button>
+        </div>
+      </li>
+    `).hide().fadeIn(400);
+    skillList.append(li);
+  });
+}
+
+//Create a dynamic list container
+if ($("#skills").find("#dynamicSkillList").length === 0) {
+  $("#skills").append(`
+    <ul id="dynamicSkillList" class="list-unstyled mt-3"></ul>
+  `);
+}
+
+//Add
+$("#addSkillBtn").click(function () {
+  const newSkill = $("#skillInput").val().trim();
+
+  if (newSkill === "") {
+    alert("Please enter a skill.");
+    return;
+  }
+
+  //Check if skill already exists
+  if (skillsArray.some(skill => skill.toLowerCase() === newSkill.toLowerCase())) {
+    alert("Skill already exists!");
+    return;
+  }
+
+  skillsArray.push(newSkill);
+  renderSkills();
+  $("#skillInput").val("");
+});
+
+//Edit
+$(document).on("click", ".edit-skill", function () {
+  const index = $(this).data("index");
+  const newName = prompt("Edit skill name:", skillsArray[index]);
+  if (newName && newName.trim() !== "") {
+    skillsArray[index] = newName.trim();
+    renderSkills();
+  }
+});
+
+//Delete
+$(document).on("click", ".delete-skill", function () {
+  const index = $(this).data("index");
+  $(this).closest("li").slideUp(400, function () {
+    skillsArray.splice(index, 1);
+    renderSkills();
+  });
+});
+
+// Keyboard Events
+$("#skillInput").on("keydown", function (event) {
+  if (event.key === "Enter") {
+    $("#addSkillBtn").click();
+  } else if (event.key === "Escape") {
+    $("#skillInput").val("");
+  }
+});
+
+
+//Dynamic Nav Menu
+const navItems = ["About Me", "Skills", "Projects", "Education"];
+const navIds = ["#aboutme", "#skills", "#projects", "#education"];
+
+navItems.forEach((item, i) => {
+  const li = $(`
+    <li class="nav-item">
+      <a class="nav-link" href="${navIds[i]}">${item}</a>
+    </li>
+  `);
+  $("#navList").append(li);
+});
+
+// Smooth scrolling for nav links
+$("a.nav-link").click(function (e) {
+  e.preventDefault();
+  const target = $($(this).attr("href"));
+  $("html, body").animate({ scrollTop: target.offset().top - 80 }, 800);
+});
